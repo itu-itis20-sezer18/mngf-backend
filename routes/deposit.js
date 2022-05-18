@@ -15,6 +15,7 @@ router.post('/create', cors(), function(req, res, next) {
         methodCurrency,
         plan,
         amountInMngf,
+        interestRate,
         amountWillBeRecieved
     } = req.body;
     Ref.findOne({userId: userId,didInvest: false},(error,data) => {
@@ -57,6 +58,7 @@ router.post('/create', cors(), function(req, res, next) {
         amount: amount,
         methodCurrency: methodCurrency,
         plan: plan,
+        interestRate: interestRate,
         endDate: date,
         amountInMngf: amountInMngf,
         amountWillBeRecieved: amountWillBeRecieved,

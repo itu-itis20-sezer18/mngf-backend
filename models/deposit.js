@@ -11,6 +11,7 @@ const DepositSchema = mongoose.Schema(
       },
 
     amount: Number,
+    interestRate: Number,
     amountInMngf: Number,
 
     methodCurrency: {
