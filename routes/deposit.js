@@ -5,7 +5,8 @@ var Deposit = require('../models/deposit')
 var User = require('../models/user')
 var Ref = require('../models/ref')
 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const user = require('../models/user');
 
 router.post('/create', cors(), function(req, res, next) {
     var {
@@ -201,5 +202,51 @@ router.post('/calculateEarnings', cors(), function(req, res, next) {
           res.json({totalEarning: totalEarning.toFixed(2),totalPercent: totalPercent.toFixed(2),totalDeposit: totalDeposit.toFixed(2),totalReceive: totalReceive.toFixed(2)})
               }
     })
+});
+
+
+//Cancel Deposit
+router.post('/cancelDeposit', cors(), function(req, res, next) {
+
+    var {
+        depositId,
+    } = req.body;
+    console.log(depositId);
+    Deposit.findByIdAndDelete(depositId).clone().then(result => {
+        const coinName = result.selectedCoin
+        switch(coinName){
+            case "BTC":
+                User.updateOne({_id: result.userId},{$inc: {"balances.BTC": result.amount}}).then(result1 => {
+                    console.log(result1)
+                }).then(_result => {
+                    res.send({msg: "success"})
+                })
+                break;
+                case "ETH":
+                    User.updateOne({_id: result.userId},{$inc: {"balances.ETH": result.amount}}).then(result1 => {
+                        console.log(result1)
+                    }).then(_result => {
+                        res.send({msg: "success"})
+                    })
+                    break;
+                    case "USDT":
+                        User.updateOne({_id: result.userId},{$inc: {"balances.USDT": result.amount}}).then(result1 => {
+                            console.log(result1)
+                        }).then(_result => {
+                            res.send({msg: "success"})
+                        })
+                        break;
+                        case "LTC":
+                            User.updateOne({_id: result.userId},{$inc: {"balances.LTC": result.amount}}).then(result1 => {
+                                console.log(result1)
+                            }).then(_result => {
+                                res.send({msg: "success"})
+                            })
+                            break;
+                                                
+        }
+      
+    })
+   
 });
 module.exports = router;
