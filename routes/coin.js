@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const cors = require('cors');
 var Coin = require('../models/coin')
+const checkToken = require("./checkAuth")
 
 const bodyParser = require('body-parser')
 

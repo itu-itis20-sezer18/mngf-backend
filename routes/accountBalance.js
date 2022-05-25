@@ -4,8 +4,10 @@ const cors = require('cors');
 var User = require('../models/user')
 const bodyParser = require('body-parser')
 const Coinpayments = require('coinpayments');
+const checkToken = require("./checkAuth")
 
-router.post('/', cors(), function(req, res, next) {
+
+router.post('/', [cors(),checkToken], function(req, res, next) {
     var {
         userWallet,
         balance,

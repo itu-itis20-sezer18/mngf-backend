@@ -3,9 +3,10 @@ var router = express.Router();
 const cors = require('cors');
 var Ref = require('../models/ref')
 const bodyParser = require('body-parser')
+const checkToken = require("./checkAuth")
 
 
-router.post('/getRefs', cors(), function(req, res, next) {
+router.post('/getRefs', [cors(),checkToken], function(req, res, next) {
 
     var {
         userId

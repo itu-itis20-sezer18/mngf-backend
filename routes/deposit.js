@@ -4,11 +4,13 @@ const cors = require('cors');
 var Deposit = require('../models/deposit')
 var User = require('../models/user')
 var Ref = require('../models/ref')
+const checkToken = require("./checkAuth")
+
 
 const bodyParser = require('body-parser');
 const user = require('../models/user');
 
-router.post('/create', cors(), function(req, res, next) {
+router.post('/create', [cors(),checkToken], function(req, res, next) {
     var {
         userId,
         selectedCoin,
@@ -90,7 +92,7 @@ router.post('/create', cors(), function(req, res, next) {
     })
 });
 
-router.post('/getAll', cors(), function(req, res, next) {
+router.post('/getAll', [cors(),checkToken], function(req, res, next) {
     function treatAsUTC(date) {
         var result = new Date(date);
         result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
@@ -137,7 +139,7 @@ router.post('/getAll', cors(), function(req, res, next) {
 })
 
 //Calculate total earnings
-router.post('/calculateEarnings', cors(), function(req, res, next) {
+router.post('/calculateEarnings', [cors(),checkToken], function(req, res, next) {
     function treatAsUTC(date) {
         var result = new Date(date);
         result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
@@ -206,7 +208,7 @@ router.post('/calculateEarnings', cors(), function(req, res, next) {
 
 
 //Cancel Deposit
-router.post('/cancelDeposit', cors(), function(req, res, next) {
+router.post('/cancelDeposit', [cors(),checkToken], function(req, res, next) {
 
     var {
         depositId,

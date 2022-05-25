@@ -5,6 +5,10 @@ var User = require('../models/user')
 const bodyParser = require('body-parser')
 const Coinpayments = require('coinpayments');
 var Ref = require('../models/ref')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+const checkToken = require("./checkAuth")
+
 
 router.post('/signUp', cors(), function(req, res, next) {
     var {
@@ -138,7 +142,8 @@ router.post('/signUp', cors(), function(req, res, next) {
                                     })
                                     ref.save();
                                 }
-                                res.send(result)
+                                const accessToken = jwt.sign({id: result._id.toString()},process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '2d' })
+                                res.send({data:result,token: accessToken})
                             })
                      }
                     
@@ -172,7 +177,9 @@ router.post('/signIn', cors(), function(req, res, next) {
             })
         }
         if(data) {
-            res.send(data);
+            console.log(data._id)
+            const accessToken = jwt.sign({id: data._id.toString()},process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '2d' })
+            res.send({data: data,token: accessToken});
         }
         else {
             res.json({
@@ -185,7 +192,7 @@ router.post('/signIn', cors(), function(req, res, next) {
 });
 
 //Sign in
-router.post('/signInWithId', cors(), function(req, res, next) {
+router.post('/signInWithId', [cors(),checkToken], function(req, res, next) {
     var {
         userId
     } = req.body;

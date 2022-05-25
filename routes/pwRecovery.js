@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const crypto = require('crypto');
 const pwRecovery = require('../models/pwRecovery');
 
+
 router.post('/create', cors(), function(req, res, next) {
     function sendMail(receipent,code){
         const sgMail = require('@sendgrid/mail')

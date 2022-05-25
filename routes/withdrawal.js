@@ -3,10 +3,11 @@ var router = express.Router();
 const cors = require('cors');
 var Withdrawal = require('../models/withdrawal')
 const bodyParser = require('body-parser')
+const checkToken = require("./checkAuth")
 
 
 
-router.post('/create', cors(), function(req, res, next) {
+router.post('/create', [cors(),checkToken], function(req, res, next) {
     console.log("here")
     var {
         userId,
@@ -36,7 +37,7 @@ router.post('/create', cors(), function(req, res, next) {
 })
 
 
-router.post('/getAll', cors(), function(req, res, next) {
+router.post('/getAll', [cors(),checkToken], function(req, res, next) {
     console.log("get deposit")
     var {
         userId,
