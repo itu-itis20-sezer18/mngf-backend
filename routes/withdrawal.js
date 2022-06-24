@@ -22,7 +22,7 @@ router.post('/create', [cors(),checkToken], function(req, res, next) {
             amount: amount,
             methodCurrency: "USD",
             requestedAt: requestedAt,
-            status: "new",
+            status: "New",
             wallet: wallet
         });
    
@@ -63,4 +63,73 @@ router.post('/getAll', [cors(),checkToken], function(req, res, next) {
     })
 })
 
+//Approve withdrawal
+router.post('/approve', [cors()], function(req, res, next) {
+    var {
+        withdrawalId,secret
+    } = req.body;
+    if(secret != "6657d05e-0b66-4462-a367-3eaaf26e5ffb"){
+        return;
+    }
+    console.log(withdrawalId)
+
+    Withdrawal.findById({
+        _id: withdrawalId
+    }, (error, data) => {
+        console.log(data)
+        if (error) {
+            console.log(error)
+            res.json({
+                "msg": "error-occured"
+            })
+            return;
+        }
+        if(data) {
+           data.status = "Approved";
+           data.save().then(result => {
+            res.send(result);
+           });
+           
+        }
+        else {
+            res.json({
+                "msg": "no-withdrawal"
+            })
+        }
+    })
+})
+//Decline withdrawal
+router.post('/decline', [cors()], function(req, res, next) {
+    var {
+        withdrawalId,secret
+    } = req.body;
+    if(secret != "6657d05e-0b66-4462-a367-3eaaf26e5ffb"){
+        return;
+    }
+    console.log(withdrawalId)
+
+    Withdrawal.findById({
+        _id: withdrawalId
+    }, (error, data) => {
+        console.log(data)
+        if (error) {
+            console.log(error)
+            res.json({
+                "msg": "error-occured"
+            })
+        }
+        if(data) {
+           data.status = "Declined";
+           data.save().then(result => {
+            res.send(result);
+           });
+           
+        }
+        else {
+            res.json({
+                "msg": "no-withdrawal"
+            })
+        }
+    })
+})
 module.exports = router

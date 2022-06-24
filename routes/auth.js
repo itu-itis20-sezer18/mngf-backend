@@ -123,6 +123,7 @@ router.post('/signUp', cors(), function(req, res, next) {
                             ref: ref,
                             wallet: "temp",
                             depositAddresses: dict,
+                            createdAt: new Date(),
                             balances: {
                                 MNGF: 0,
                                 BTC: 0,

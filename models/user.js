@@ -61,6 +61,7 @@ const UserSchema = mongoose.Schema(
       wallet: {
         type: String,
       },
+      createdAt: String
 
       
       

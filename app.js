@@ -26,6 +26,8 @@ app.use('/coin',bodyParser.urlencoded({extended:false}))
 app.use('/coin',bodyParser.json())
 app.use('/ref',bodyParser.urlencoded({extended:false}))
 app.use('/ref',bodyParser.json())
+app.use('/panel',bodyParser.urlencoded({extended:false}))
+app.use('/panel',bodyParser.json())
 app.use(express.json())
 
 
@@ -44,6 +46,8 @@ const coinRouter = require('./routes/coin')
 app.use('/coin',coinRouter );
 const refRouter = require('./routes/ref')
 app.use('/ref',refRouter );
+const panelRouter = require('./routes/panel')
+app.use('/panel',panelRouter );
 
 
 mongoose.connect("mongodb+srv://karavangezer1:J4AUsFkBru@cluster0.hozdl.mongodb.net/test?authSource=admin&replicaSet=atlas-tcqpsg-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true", {
